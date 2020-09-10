@@ -261,7 +261,7 @@ system(str);
 install_kmer = input("Install KmerFinder database? [y/n] ",'s');
 if ismember(lower(install_kmer),["y","yes"])
     disp(" "); disp("Installing the KmerFinder database...");
-    kmer_str = "CONDA_BASE=$(conda info --base);source $CONDA_BASE/etc/profile.d/conda.sh;conda activate kmerfinder_env; " + ...
+    kmer_str = "CONDA_BASE=$(conda info --base);source $CONDA_BASE/etc/profile.d/conda.sh;conda activate cge_env; " + ...
         "cd $BIOSUITE_HOME/databases; git clone https://bitbucket.org/genomicepidemiology/kmerfinder_db.git; " + ...
         "cd kmerfinder_db; KmerFinder_DB=$(pwd); bash INSTALL.sh $KmerFinder_DB bacteria 20190108_stable";
     [stat, out] = system(kmer_str);
@@ -276,13 +276,13 @@ else
 end
 
 % download the MLST database
-install_kmer = input("Install MLST database? [y/n] ",'s');
-if ismember(lower(install_kmer),["y","yes"])
+install_mlst = input("Install MLST database? [y/n] ",'s');
+if ismember(lower(install_mlst),["y","yes"])
     disp(" "); disp("Installing the MLST database...");
-    kmer_str = "CONDA_BASE=$(conda info --base);source $CONDA_BASE/etc/profile.d/conda.sh;conda activate mlst_env; " + ...
+    mlst_str = "CONDA_BASE=$(conda info --base);source $CONDA_BASE/etc/profile.d/conda.sh;conda activate cge_env; " + ...
         "cd $BIOSUITE_HOME/databases; git clone https://bitbucket.org/genomicepidemiology/mlst_db.git; " + ...
         "cd mlst_db; MLST_DB=$(pwd); python INSTALL.py kma_index";
-    [stat, out] = system(kmer_str);
+    [stat, out] = system(mlst_str);
     if stat == 0
         disp("MLST database installed successfully!")
     else
@@ -291,4 +291,17 @@ if ismember(lower(install_kmer),["y","yes"])
     end
 else
     disp("Skipping MLST database. Note that MLST will not function until the database is installed.")
+end
+
+% download the Prokka2Kegg database
+disp("Installing the Prokka2Kegg database...")
+p2k_str = "CONDA_BASE=$(conda info --base);source $CONDA_BASE/etc/profile.d/conda.sh;conda activate cge_env; " + ...
+        "cd $BIOSUITE_HOME/databases; wget ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/idmapping.dat.gz; " + ...
+        "gzip -dc idmapping.dat.gz | awk '{if($2=="KO") print ​$1,$3}' OFS="\t" | gzip > idmapping_KO.tab.gz; rm idmapping.dat.gz";
+[stat, out] = system(p2k_str);
+if stat == 0
+    disp("Prokka2Kegg database installed successfully!")
+else
+    disp("Prokka2Kegg database did not install successfully; error below:")
+    disp(out)
 end
