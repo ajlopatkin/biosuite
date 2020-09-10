@@ -1,0 +1,9 @@
+name: raxml_env
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - raxml=8.2.12=h0b31af3_2
+prefix: /Users/alopatki/anaconda3/envs/raxml_env
+

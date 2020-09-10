@@ -1,0 +1,10 @@
+name: muscle_env
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - libcxx=10.0.1=h5f48129_0
+  - muscle=3.8.1551=h770b8ee_5
+prefix: /Users/alopatki/anaconda3/envs/muscle_env
+

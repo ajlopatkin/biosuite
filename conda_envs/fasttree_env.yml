@@ -1,0 +1,9 @@
+name: fasttree_env
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - fasttree=2.1.10=h0b31af3_4
+prefix: /Users/alopatki/anaconda3/envs/fasttree_env
+

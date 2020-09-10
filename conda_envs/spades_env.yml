@@ -1,0 +1,27 @@
+name: spades_env
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - bzip2=1.0.8=haf1e3a3_3
+  - ca-certificates=2020.6.20=hecda079_0
+  - certifi=2020.6.20=py38h32f6830_0
+  - libcxx=10.0.1=h5f48129_0
+  - libffi=3.2.1=1
+  - llvm-openmp=10.0.1=h28b9765_0
+  - ncurses=6.2=hb1e8313_1
+  - openssl=1.1.1g=haf1e3a3_1
+  - pip=20.2.2=py_0
+  - python=3.8.5=hfc71d35_5_cpython
+  - python_abi=3.8=1_cp38
+  - readline=8.0=h0678c8f_2
+  - setuptools=49.6.0=py38h32f6830_0
+  - spades=3.14.1=he641558_0
+  - sqlite=3.33.0=h960bd1c_0
+  - tk=8.6.10=hb0a8c7a_0
+  - wheel=0.35.1=pyh9f0ad1d_0
+  - xz=5.2.5=haf1e3a3_1
+  - zlib=1.2.11=1007
+prefix: /Users/alopatki/anaconda3/envs/spades_env
+

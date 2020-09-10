@@ -1,0 +1,9 @@
+name: phipack_env
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - phipack=1.1=h01d97ff_0
+prefix: /Users/alopatki/anaconda3/envs/phipack_env
+
