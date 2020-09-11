@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% BIOSUITE INSTALLER V0.1
+% BIOSUITE INSTALLER V0.2
 %
-% Last Build: 8/24/20
+% Last Build: 9/9/20
 %
 % This installer performs basic setup of the BioSuite environment,
 % including setting MATLAB path and environment variables, installing the
@@ -15,26 +15,29 @@
 % installing BioSuite; the conda environments included in
 % conda_environments include installations of required python packages.
 %
+% Docker must be installed in order to use GeneSCF; please see the Docker
+% website at https://docs.docker.com/get-docker/ to install.
+%
 % For issues, please contact the Lopatkin Lab at www.lopatkinlab.com.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 clc
 disp("Welcome to BioSuite!")
-disp("This script will install the MATLAB tools and configure your environment for use.")
+disp("This script will install the BioSuite MATLAB tools and configure your environment for use.")
 disp(" ");disp("Checking available disk space...")
 
 FileObj = java.io.File("/");
 usable_gb = FileObj.getUsableSpace/1e9;
 
-if usable_bytes > 150
+if usable_gb > 150
     disp("Found >150GB free disk space available.")
-elseif usable_bytes > 50
+elseif usable_gb > 50
     disp("Found 50-150GB available; partial install recommended.")
 else
     disp("<50GB disk space available; the full install of BioSuite will take ~100GB disk space. Consider freeing up some disk space before continuing.")
     keep_going = input("Continue with install? [y/n] ",'s');
     if ismember(lower(keep_going),["y","yes"])
-        disp("Conintuing with install.")
+        disp("Continuing with install.")
     else
         disp("Exiting...")
         return
@@ -44,9 +47,9 @@ end
 disp(" ");disp("Checking current folder structure...")
 
 % check the current directory for biosuite contents
-if isfolder("databases") && isfolder("conda_environments")...
+if isfolder("databases") && isfolder("conda_envs")...
         && isfolder("bash_source") && isfolder("matlab_wrappers")
-    disp("Directory structure OK.")
+    disp("Directory structure OK."); disp(" ")
 else
     error("Directory structure not valid. Folder must contain matlab_wrappers, databases, conda_environments, and bash_source.")
 end
@@ -83,6 +86,7 @@ end
 
 % check for a default docker environment
 docker_home = "";
+disp(" ")
 if isfile("/usr/local/bin/docker")
     default_docker = input("Docker executable found in /usr/local/bin. Use this as DOCKER_HOME? [y/n] ", "s");
     if any(strcmpi(["y","yes"],default_docker))
@@ -112,7 +116,7 @@ if strcmp(docker_home, "")
 end
 
 % validate the conda home environment
-disp("Checking the Conda environment...")
+disp(" "); disp("Checking the Conda environment...")
 conda_home_contents = dir(conda_home);
 folder_names = {conda_home_contents.name};
 reqd_folders = ["condabin", "conda-meta", "bin"];
@@ -125,7 +129,7 @@ end
 
 % validate the docker environment
 disp("Checking the Docker environment...")
-[status, stdout] = system(docker_home+" docker image ls");
+[status, stdout] = system(docker_home+"/docker image ls");
 if status == 0
     disp("Docker looks good!")
 else
@@ -135,8 +139,23 @@ end
 % check for startup.m
 home_files = dir(userpath);
 if ismember("startup.m", {home_files.name})
-    disp(" ");disp("startup.m detected in home directory; will append to existing file.")
+    disp(" ");
+    make_startup = input("startup.m detected in home directory; append to existing file? [y/n] ", 's');
+    if ismember(lower(make_startup),["y","yes"])
+        make_startup = 1;
+        disp("Will append to existing startup.m")
+    else
+        make_startup = input("Are you sure? This may break BioSuite! [y/n] ", 's');
+        if ismember(lower(make_startup),["y","yes"])
+            make_startup = 0;
+            disp("Skipping path setup. WARNING: THIS MAY CAUSE CONDA OR OTHER TOOLS TO FAIL!")
+        else
+            make_startup = 1;
+            disp("Will append to existing startup.m")
+        end
+    end
 else
+    make_startup = 1;
     disp(" ");disp("startup.m not detected in home directory; will create new file.")
 end
 
@@ -156,7 +175,7 @@ fprintf(fileid, "\naddpath(genpath('"+pwd+"'))");
 fclose(fileid);
 
 % create conda environments
-conda_envs = dir("conda_environments");
+conda_envs = dir("conda_envs");
 disp(" ");all_envs = input("Installing all Conda environments will use up to 50GB of disk space. Install all envs? [y/n] ", 's');
 
 if ismember(lower(all_envs),["y","yes"])
@@ -182,7 +201,7 @@ for k = 1:length(conda_envs)
         end
     end
     
-    str = "conda env create -f conda_environments/"+conda_envs(k).name;
+    str = "conda env create -f conda_envs/"+conda_envs(k).name;
     [stat, out] = system(str);
     
     if stat ~= 0
@@ -202,6 +221,7 @@ disp("All conda environments created.")
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % download the plasmid finder database
+disp(" ")
 install_pf = input("Install PlasmidFinder database? [y/n] ",'s');
 if ismember(lower(install_pf),["y","yes"])
     disp(" "); disp("Installing the PlasmidFinder database...");
@@ -218,6 +238,7 @@ else
 end
 
 % download the AMRPlus database
+disp(" ")
 install_amr = input("Install AMRPlus database? [y/n] ",'s');
 if ismember(lower(install_amr),["y","yes"])
     disp(" "); disp("Installing the AMRFinderPlus database...");
@@ -234,12 +255,13 @@ else
 end
 
 % download the RGI CARDS database
+disp(" ")
 install_cards = input("Install CARDS database? [y/n] ",'s');
 if ismember(lower(install_cards),["y","yes"])
     disp(" "); disp("Installing the CARDS database...");
     card_str = "CONDA_BASE=$(conda info --base);source $CONDA_BASE/etc/profile.d/conda.sh;conda activate rgi_env; " + ...
-                "wget https://card.mcmaster.ca/latest/data; tar -xvf data ./card.json; " + ...
-                "mv card.json $BIOSUITE_HOME/databases/; rgi load --card_json $BIOSUITE_HOME/databases/card.json;";
+                "cd $BIOSUITE_HOME/databases; wget https://card.mcmaster.ca/latest/data; tar -xvf data ./card.json; " + ...
+                "rgi load --card_json $BIOSUITE_HOME/databases/card.json;";
     [stat, out] = system(card_str);
     if stat == 0
         disp("CARDS database installed successfully!")
@@ -254,10 +276,19 @@ end
 % load the geneSCF docker image; this must be downloaded and placed in the
 % folder $BIOSUITE_HOME/binaries/ before running. The docker image can be
 % obtained from https://drive.google.com/file/d/1hPHhhdFwHKWDltn5inkKZ1EMCxFcmurH/view?usp=sharing
-str = "docker import $BIOSUITE_HOME/binaries/genescf_container.tar genescf:latest";
-system(str);
+disp(" ")
+disp("Importing GeneSCF Docker image...")
+docker_str = "docker import $BIOSUITE_HOME/binaries/genescf_container.tar genescf:latest";
+[stat, out] = system(docker_str);
+if stat == 0
+    disp("GeneSCF Docker image imported successfully!")
+else
+    disp("GeneSCF docker image did not import successfully; error below:")
+    disp(out)
+end
 
 % download the KmerFinder database
+disp(" ")
 install_kmer = input("Install KmerFinder database? [y/n] ",'s');
 if ismember(lower(install_kmer),["y","yes"])
     disp(" "); disp("Installing the KmerFinder database...");
@@ -276,6 +307,7 @@ else
 end
 
 % download the MLST database
+disp(" ")
 install_mlst = input("Install MLST database? [y/n] ",'s');
 if ismember(lower(install_mlst),["y","yes"])
     disp(" "); disp("Installing the MLST database...");
@@ -294,14 +326,23 @@ else
 end
 
 % download the Prokka2Kegg database
-disp("Installing the Prokka2Kegg database...")
-p2k_str = "CONDA_BASE=$(conda info --base);source $CONDA_BASE/etc/profile.d/conda.sh;conda activate cge_env; " + ...
-        "cd $BIOSUITE_HOME/databases; wget ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/idmapping.dat.gz; " + ...
-        "gzip -dc idmapping.dat.gz | awk '{if($2=="KO") print ​$1,$3}' OFS="\t" | gzip > idmapping_KO.tab.gz; rm idmapping.dat.gz";
-[stat, out] = system(p2k_str);
-if stat == 0
-    disp("Prokka2Kegg database installed successfully!")
+disp(" ")
+install_p2k = input("Install Prokka2Kegg database? [y/n] ",'s');
+if ismember(lower(install_p2k),["y","yes"])
+    disp("Installing the Prokka2Kegg database...")
+    p2k_str = "CONDA_BASE=$(conda info --base);source $CONDA_BASE/etc/profile.d/conda.sh;conda activate cge_env; " + ...
+            "cd $BIOSUITE_HOME/databases; wget https://github.com/SilentGene/Bio-py/raw/master/prokka2kegg/idmapping_KO.tab.gz";
+    [stat, out] = system(p2k_str);
+    if stat == 0
+        disp("Prokka2Kegg database installed successfully!")
+    else
+        disp("Prokka2Kegg database did not install successfully; error below:")
+        disp(out)
+    end
 else
-    disp("Prokka2Kegg database did not install successfully; error below:")
-    disp(out)
+    disp("Skipping Prokka2Kegg database. Note that Prokka will not function until the database is installed.")
 end
+
+disp(" ")
+disp("Biosuite has been initialized. Please restart MATLAB for all changes to take effect.")
+disp("For issues, ideas or questions, contact the Lopatkin lab at lopatkinlab.com")
