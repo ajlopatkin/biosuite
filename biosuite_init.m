@@ -242,7 +242,7 @@ disp(" ")
 install_amr = input("Install AMRPlus database? [y/n] ",'s');
 if ismember(lower(install_amr),["y","yes"])
     disp(" "); disp("Installing the AMRFinderPlus database...");
-    amr_string = "CONDA_BASE=$(conda info --base);source $CONDA_BASE/etc/profile.d/conda.sh;conda activate amrfinderplus_env;amrfinder -h";
+    amr_string = "CONDA_BASE=$(conda info --base);source $CONDA_BASE/etc/profile.d/conda.sh;conda activate amrfinderplus_env;amrfinder -u";
     [stat, out] = system(amr_string);
     if stat == 0
         disp("AMRFinderPlus database installed successfully!")
