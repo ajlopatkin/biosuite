@@ -24,5 +24,5 @@ genus = "Escherichia"
 %%%%%%%% DEMO %%%%%%%%
 mkdir(output_dir)
 % run prokka
-prokka(input_fasta,output_dir,prefix_name);
+prokka(input_fasta,output_dir,prefix_name,genus);
 %%%%%%%%%%%%%%%%%%%%%%
