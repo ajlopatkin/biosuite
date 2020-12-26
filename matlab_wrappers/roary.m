@@ -4,7 +4,7 @@ input_dir = path_to_gffs + "/input_gffs/";
 mkdir(input_dir)
 system("cp " + path_to_gffs + "*.gff " + input_dir)
 
-str = "bash /Users/alopatki/Documents/MATLAB/BioSuite/bash_source/roary.sh " +...
+str = "bash $BIOSUITE_HOME/bash_source/roary.sh " +...
     input_dir + " " + output_dir + " " + min_blast_pct;
 
 [status,cmdout] = system(str);
