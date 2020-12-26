@@ -1,3 +1,4 @@
+%%% Program to test all demo files and catch thrown errors 
 try
 amrfinderplus_demo
 catch
