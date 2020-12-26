@@ -4,6 +4,7 @@
 % % % # INPUTS (IN ORDER): 
 % % % #	+ 1. input_fasta- File path for input genome fasta file
 % % % # + 2. output_path- Path for folder to hold output files
+% % % # + 3. database- Species database for MLST prediction 
 
 clear; close all; clc
 BasePath = getenv("BIOSUITE_HOME");
@@ -14,6 +15,9 @@ input_fasta = BasePath + "/demo/demo_data/demo_genome.fasta";
 
 %Input 2: Path for folder to hold output files (can be nonexistent)
 output_path = BasePath + "/demo/output/mlst/";
+
+%Input 3: Species database (see docs for full list of options)
+database = "ecoli";
 %%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%% DEMO %%%%%%%%
