@@ -1,8 +1,8 @@
-function prokka(input_fasta,output_dir,prefix_name)
+function prokka(input_fasta,output_dir,prefix_name,genus)
 
 % run prokka
 str = "bash $BIOSUITE_HOME/bash_source/prokka.sh " + input_fasta...
-    + " " + output_dir + " " + prefix_name;
+    + " " + output_dir + " " + prefix_name + " " + genus;
 [status,cmdout] = system(str);
 
 if status ~= 0
