@@ -1,13 +1,9 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%~
-% databases and other external downloads %
-%~
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%%%%%%%% database installer %%%%%%%
 
 disp(" ")
 disp("This program will install selected databases, if not yet installed")
 disp("Checking for installed databases...")
+
 pf_check = 0;
 amr_check = 0;
 rgi_check = 0;
@@ -55,8 +51,7 @@ else
             disp(out)
         end
     else
-        disp("Skipping CARDS database. Note that RGI will not function until the database is installed.")
-        disp("For future database installs, run database_installer.m")
+        disp("Skipping CARDS database.")
     end
 end
 
@@ -79,8 +74,7 @@ else
             disp(out)
         end
     else
-        disp("Skipping KmerFinder database. Note that KmerFinder will not function until the database is installed.")
-        disp("For future database installs, run database_installer.m")
+        disp("Skipping KmerFinder database")
     end
 end
 
@@ -103,8 +97,7 @@ else
             disp(out)
         end
     else
-        disp("Skipping MLST database. Note that MLST will not function until the database is installed.")
-        disp("For future database installs, run database_installer.m")
+        disp("Skipping MLST database")
     end
 end
 
@@ -127,8 +120,7 @@ else
             disp(out)
         end
     else
-        disp("Skipping Prokka2Kegg database. Note that Prokka will not function until the database is installed.")
-        disp("For future database installs, run database_installer.m")
+        disp("Skipping Prokka2Kegg database")
     end
 end
 % download the plasmid finder database
@@ -144,8 +136,7 @@ if ismember(lower(install_pf),["y","yes"])
         disp(out)
     end
 else
-    disp("Skipping PlasmidFinder database. Note that PlasmidFinder will not function until the database is installed.")
-    disp("For future database installs, run database_installer.m")
+    disp("Skipping PlasmidFinder database")
 end
 
 % download the AMRPlus database
@@ -162,6 +153,5 @@ if ismember(lower(install_amr),["y","yes"])
         disp(out)
     end
 else
-    disp("Skipping AMRPlus database. Note that AMRPlus will not function until the database is installed.")
-    disp("For future database installs, run database_installer.m")
+    disp("Skipping AMRPlus database.)
 end
