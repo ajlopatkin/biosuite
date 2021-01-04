@@ -32,4 +32,4 @@ tools_selected=$4
 ###################
 #~- MAIN SCRIPT -~#
 ###################
-python "$BIOSUITE_HOME"/bash_source/genome_res.py -i "$input_path" -o "$output_path" -n "$id" -t "$tools_selected"
+python "$BIOSUITE_HOME"/bash_source/genome_res.py -i "$input_path" -o "$output_path" -id "$id" -t "$tools_selected"
