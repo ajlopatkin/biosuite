@@ -51,7 +51,7 @@ end
 
 %Args to bash script: output directory, input directory
 disp("Combining results for " + id)
-str = "bash $BIOSUITE_HOME/bash_source/get_resistance.sh " + tool_output + " " + excel_output + " " + id + " " + compile_args;
+str = "bash $BIOSUITE_HOME/bash_source/genome_res.sh " + tool_output + " " + excel_output + " " + id + " " + compile_args;
 
 [status,cmdout] = system(str);
 if status ~= 0
