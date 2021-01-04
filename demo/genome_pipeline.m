@@ -60,7 +60,7 @@ while i < length(id_list)
     input_fasta = input_path + id + ".fna";
     tool_output = input_path + id + "_pipelineOut/";
     mkdir(tool_output)
-    get_resistance(input_path, rgi, starmar, amrfinder, db_flag, clermont_type, sequence_type, kmerfinder, input_fasta, tool_output)
+    genome_res(input_path, rgi, starmar, amrfinder, db_flag, clermont_type, sequence_type, kmerfinder, input_fasta, tool_output)
     i = i + 1;
 end
 compile_resistance(input_path + "temp/", combined_output)
