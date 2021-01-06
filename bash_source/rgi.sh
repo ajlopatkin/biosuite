@@ -32,5 +32,5 @@ output_file=$2
 #~- MAIN SCRIPT -~#
 ###################
 
-#rgi load --card_json "$BIOSUITE_HOME/databases/card.json"
-# rgi main --input_sequence "$input_file" --output_file "$output_file" --input_type contig --clean
+rgi load --card_json "$BIOSUITE_HOME/databases/card.json"
+rgi main --input_sequence "$input_file" -o "$output_file" --input_type contig --clean --debug

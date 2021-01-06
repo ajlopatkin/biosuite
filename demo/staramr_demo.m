@@ -1,12 +1,19 @@
-% This script demonstrates using starAMR  to identify resistance genes
-% from fasta file
+% This script uses starAMR  to identify resistance genes from a 
 % % # INPUTS (IN ORDER):
 % % #	+ 1. input_file - path to input fasta file
-% % #	+ 2. output_dir - file for output data
+% % #	+ 2. output_dir - Path to directory for output data- MUST NOT EXIST
 
 clear;close all;clc
-file_name = "demo_genome";
 BasePath = getenv("BIOSUITE_HOME");
-input_file = BasePath + "/demo/demo_data/" + file_name + ".fasta";
-output_dir = BasePath + "/demo/output/" + file_name + "_staramr";
+
+%%%%% USER INPUT %%%%%
+%Input 1: path to input .fasta file
+input_file = BasePath + "/demo/output/fasta_downloads/demo_genome.fna";
+
+%Input 2: Path to directory to store output files
+output_dir = BasePath + "/demo/output/demo_genome_staramr";
+%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%% DEMO %%%%%%%%
 staramr(output_dir,input_file)
+%%%%%%%%%%%%%%%%%%%%%%

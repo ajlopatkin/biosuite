@@ -29,12 +29,13 @@ conda activate prokka_env
 input_fasta=$1
 output_dir=$2
 prefix_name=$3
+genus=$4
 
 ###################
 #~- MAIN SCRIPT -~#
 ###################
 
 prokka --kingdom Bacteria --outdir "$output_dir" --prefix "$prefix_name"\
- --force --genus Escherichia "$input_fasta"
+ --force --genus "$genus" "$input_fasta"
 python "$BIOSUITE_HOME"/bash_source/prokka2kegg.py -i "$output_dir"*.gbf\
  -d "$BIOSUITE_HOME"/databases/idmapping_KO.tab.gz -o "$output_dir"prokka2keg.txt

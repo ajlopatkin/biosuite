@@ -1,8 +1,8 @@
-function prokka(input_fasta,output_dir,prefix_name)
+function prokka(input_fasta,output_dir,prefix_name,genus)
 
 % run prokka
-str = "bash /Users/alopatki/Documents/MATLAB/BioSuite/bash_source/prokka.sh " + input_fasta...
-    + " " + output_dir + " " + prefix_name;
+str = "bash $BIOSUITE_HOME/bash_source/prokka.sh " + input_fasta...
+    + " " + output_dir + " " + prefix_name + " " + genus;
 [status,cmdout] = system(str);
 
 if status ~= 0
@@ -11,8 +11,8 @@ if status ~= 0
 end
 
 % run prokka2keg
-str = "python /Users/alopatki/Documents/MATLAB/BioSuite/bash_source/prokka2kegg.py " +... 
-    "-i " + output_dir + "/" + prefix_name + ".gbf -d /Users/alopatki/Documents/MATLAB/BioSuite/databases/idmapping_KO.tab.gz -o " + output_dir + "/prokka2keg.txt";
+str = "python $BIOSUITE_HOME/bash_source/prokka2kegg.py " +... 
+    "-i " + output_dir + "/" + prefix_name + ".gbf -d $BIOSUITE_HOME/databases/idmapping_KO.tab.gz -o " + output_dir + "/prokka2keg.txt";
 [status,cmdout] = system(str);
 
 

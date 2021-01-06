@@ -74,11 +74,15 @@ if strcmp(conda_home, "")
     conda_home = input("Please enter your Conda environment directory: ", "s");
     
     if isfolder(conda_home)
-        disp("Using "+donda_home+" as CONDA_HOME.")
+        disp("Using "+conda_home+" as CONDA_HOME.")
     else
         while ~isfolder(conda_home)
             disp(conda_home + " is not a valid directory.")
-            conda_home = input("Please enter your Conda environment directory: ", "s");
+            conda_home = input("Please enter your Conda environment directory, or 'e' to exit: ", "s");
+            if any(strcmpi(["e","exit"],conda_home)
+                disp("Exiting...")
+                return
+            end
         end
     end
 
@@ -109,7 +113,11 @@ if strcmp(docker_home, "")
     else
         while ~isfolder(docker_home)
             disp(docker_home + " is not a valid path.")
-            docker_home = input("Please enter your Docker environment directory: ", "s");
+            docker_home = input("Please enter your Docker environment directory, or 'e' to exit: ", "s");
+            if any(strcmpi(["e","exit"],docker_home)
+                disp("Exiting...")
+                return
+            end
         end
     end
 
@@ -124,7 +132,7 @@ reqd_folders = ["condabin", "conda-meta", "bin"];
 if all(ismember(reqd_folders,folder_names))
     disp("Conda environment is valid.")
 else
-    error("Conda environment is not valid- it looks like you're missing some folders. Please check the conda directory.")
+    error("Conda environment is not valid- it looks like you're missing some of the following folders: condabin, conda-meta, bin. Please check the conda directory.")
 end
 
 % validate the docker environment
@@ -138,11 +146,14 @@ end
 
 % check for startup.m
 home_files = dir(userpath);
+add_to_startup = 0;
+make_startup = 0;
 if ismember("startup.m", {home_files.name})
     disp(" ");
     make_startup = input("startup.m detected in home directory; append to existing file? [y/n] ", 's');
     if ismember(lower(make_startup),["y","yes"])
         make_startup = 1;
+        add_to_startup = 1;
         disp("Will append to existing startup.m")
     else
         make_startup = input("Are you sure? This may break BioSuite! [y/n] ", 's');
@@ -151,6 +162,7 @@ if ismember("startup.m", {home_files.name})
             disp("Skipping path setup. WARNING: THIS MAY CAUSE CONDA OR OTHER TOOLS TO FAIL!")
         else
             make_startup = 1;
+            add_to_startup = 1;
             disp("Will append to existing startup.m")
         end
     end
@@ -168,12 +180,17 @@ setenv("BIOSUITE_HOME", pwd);
 home_directory_line="setenv('BIOSUITE_HOME','"+pwd+"');";
 
 % open startup.m and add BioSuite paths
-fileid = fopen(userpath+"/startup.m", "a+");
-fprintf(fileid,conda_path_line);
-fprintf(fileid, "\n" + home_directory_line);
-fprintf(fileid, "\naddpath(genpath('"+pwd+"'))");
-fclose(fileid);
-
+if make_startup == 1:
+    fileid = fopen(userpath+"/startup.m", "a+");
+    if add_to_startup == 1
+        fprintf(fileid,"\n" + conda_path_line);
+    else
+        fprintf(fileid,conda_path_line);
+    fprintf(fileid, "\n" + home_directory_line);
+    fprintf(fileid, "\naddpath(genpath('"+pwd+"'))");
+    fclose(fileid);
+    end
+end
 % create conda environments
 conda_envs = dir("conda_envs");
 disp(" ");all_envs = input("Installing all Conda environments will use up to 50GB of disk space. Install all envs? [y/n] ", 's');
@@ -181,7 +198,7 @@ disp(" ");all_envs = input("Installing all Conda environments will use up to 50G
 if ismember(lower(all_envs),["y","yes"])
     disp(" ");disp("Creating conda environments. This may take some time...")
 else
-    disp(" ");disp("Will perform selective Conda installation.")
+    disp(" ");disp("Will perform selective Conda installation. Note: for future installation of skipped environments, run conda_env_installer.m")
 end
 
 for k = 1:length(conda_envs)
@@ -195,8 +212,11 @@ for k = 1:length(conda_envs)
         do_env = input("Install Conda env "+conda_envs(k).name+"? [y/n] ", 's');
         if ismember(lower(do_env),["y","yes"])
             disp("Creating "+conda_envs(k).name + "...")
-        else
+        elif ismember(lower(do_env),["n","no"])
             disp("Skipping "+conda_envs(k).name + "...")
+            continue
+        else
+            disp("Unrecognized input. Skipping" +conda_envs(k).name + "...")
             continue
         end
     end
@@ -212,7 +232,7 @@ for k = 1:length(conda_envs)
     end
 end
 
-disp("All conda environments created.")
+disp("All requested conda environments created.")
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %~
@@ -222,7 +242,7 @@ disp("All conda environments created.")
 
 % download the plasmid finder database
 disp(" ")
-install_pf = input("Install PlasmidFinder database? [y/n] ",'s');
+install_pf = input("PlasmidFinder database is required for PlasmidFinder function. Install PlasmidFinder database? [y/n] ",'s');
 if ismember(lower(install_pf),["y","yes"])
     disp(" "); disp("Installing the PlasmidFinder database...");
     pf_string = "CONDA_BASE=$(conda info --base);source $CONDA_BASE/etc/profile.d/conda.sh;conda activate plasmidfinder_env;download-db.sh";
@@ -235,11 +255,12 @@ if ismember(lower(install_pf),["y","yes"])
     end
 else
     disp("Skipping PlasmidFinder database. Note that PlasmidFinder will not function until the database is installed.")
+    disp("For future database installs, run database_installer.m")
 end
 
 % download the AMRPlus database
 disp(" ")
-install_amr = input("Install AMRPlus database? [y/n] ",'s');
+install_amr = input("Install AMRPlus database? Required for AMRPlus function. [y/n] ",'s');
 if ismember(lower(install_amr),["y","yes"])
     disp(" "); disp("Installing the AMRFinderPlus database...");
     amr_string = "CONDA_BASE=$(conda info --base);source $CONDA_BASE/etc/profile.d/conda.sh;conda activate amrfinderplus_env;amrfinder -u";
@@ -252,11 +273,12 @@ if ismember(lower(install_amr),["y","yes"])
     end
 else
     disp("Skipping AMRPlus database. Note that AMRPlus will not function until the database is installed.")
+    disp("For future database installs, run database_installer.m")
 end
 
 % download the RGI CARDS database
 disp(" ")
-install_cards = input("Install CARDS database? [y/n] ",'s');
+install_cards = input("Install CARDS database? Required for RGI. [y/n] ",'s');
 if ismember(lower(install_cards),["y","yes"])
     disp(" "); disp("Installing the CARDS database...");
     card_str = "CONDA_BASE=$(conda info --base);source $CONDA_BASE/etc/profile.d/conda.sh;conda activate rgi_env; " + ...
@@ -271,6 +293,7 @@ if ismember(lower(install_cards),["y","yes"])
     end
 else
     disp("Skipping CARDS database. Note that RGI will not function until the database is installed.")
+    disp("For future database installs, run database_installer.m")
 end
 
 % load the geneSCF docker image; this must be downloaded and placed in the
@@ -289,7 +312,7 @@ end
 
 % download the KmerFinder database
 disp(" ")
-install_kmer = input("Install KmerFinder database? [y/n] ",'s');
+install_kmer = input("Install KmerFinder database? Required for KmerFinder function. [y/n] ",'s');
 if ismember(lower(install_kmer),["y","yes"])
     disp(" "); disp("Installing the KmerFinder database...");
     kmer_str = "CONDA_BASE=$(conda info --base);source $CONDA_BASE/etc/profile.d/conda.sh;conda activate cge_env; " + ...
@@ -304,11 +327,12 @@ if ismember(lower(install_kmer),["y","yes"])
     end
 else
     disp("Skipping KmerFinder database. Note that KmerFinder will not function until the database is installed.")
+    disp("For future database installs, run database_installer.m")
 end
 
 % download the MLST database
 disp(" ")
-install_mlst = input("Install MLST database? [y/n] ",'s');
+install_mlst = input("Install MLST database? Required for MLST function. [y/n] ",'s');
 if ismember(lower(install_mlst),["y","yes"])
     disp(" "); disp("Installing the MLST database...");
     mlst_str = "CONDA_BASE=$(conda info --base);source $CONDA_BASE/etc/profile.d/conda.sh;conda activate cge_env; " + ...
@@ -323,6 +347,7 @@ if ismember(lower(install_mlst),["y","yes"])
     end
 else
     disp("Skipping MLST database. Note that MLST will not function until the database is installed.")
+    disp("For future database installs, run database_installer.m")
 end
 
 % download the Prokka2Kegg database
@@ -341,6 +366,7 @@ if ismember(lower(install_p2k),["y","yes"])
     end
 else
     disp("Skipping Prokka2Kegg database. Note that Prokka will not function until the database is installed.")
+    disp("For future database installs, run database_installer.m")
 end
 
 disp(" ")

@@ -9,6 +9,7 @@
 # INPUTS (IN ORDER): 
 #	+ 1. input_fasta - path to fasta file input 
 #	+ 2. output_path - path to folder output
+#	+ 3. database - species database for MLST prediction
 # 
 # DATE UPDATED: 8/22/20
 # AUTHOR: Allison Lopatkin
@@ -27,8 +28,9 @@ conda activate cge_env
 # Parse the inputs
 input_fasta=$1
 output_path=$2
+database=$3
 
 ###################
 #~- MAIN SCRIPT -~#
 ###################
-python "$BIOSUITE_HOME"/bash_source/mlst.py -i "$input_fasta" -o "$outputpath" -s ecoli -p "$BIOSUITE_HOME"/databases/mlst_db -x
+python "$BIOSUITE_HOME"/bash_source/mlst.py -i "$input_fasta" -o "$outputpath" -s "$database" -p "$BIOSUITE_HOME"/databases/mlst_db -x
