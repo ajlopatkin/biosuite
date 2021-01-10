@@ -37,7 +37,3 @@ prefix=$4
 ###################
 
 snippy --force --cleanup --outdir "$output_dir" --reference "$ref_file" --ctgs "$input_file" --prefix "$prefix" --rgid "$prefix"
-
-# conda activate roary_env
-
-# vcf2scoary "$output_dir"/snps.vcf --force --out "$output_dir"/"$prefix"_scoary_vcf.txt
