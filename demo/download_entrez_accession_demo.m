@@ -12,7 +12,7 @@ BasePath = getenv("BIOSUITE_HOME");
 
 %%%% USER INPUT %%%%
 %Input 1: Accession ID of genome
-acc_id = "SAMN02604038";
+acc_id = "NZ_CP031922";
 
 %Input 2: Format for downloaded file: "fasta" or "genbank"
 format = "fasta";
