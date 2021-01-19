@@ -10,7 +10,8 @@
 #	+ 1. input_file - input aligned fasta file
 #	+ 2. output_dir - directory for output tree
 #	+ 3. bootstrap_num - number of bootstrap repetitions
-#	+ 4. outgroup - accession ID of outgroup
+#	+ 4. tree_model - model to use for tree (GTRGAMMA for nucleotide; PROTGAMMAAUTO for amino acid)
+#	+ 5. outgroup - accession ID of outgroup
 # 
 # DATE UPDATED: 8/22/20
 # AUTHOR: Allison Lopatkin
@@ -30,16 +31,17 @@ conda activate raxml_env
 input_file=$1
 output_dir=$2
 bootstrap_num = $3
-outgroup=$4
+tree_model = $4
+outgroup=$5
 
 ###################
 #~- MAIN SCRIPT -~#
 ###################
 
 if [ "$#" -eq 3 ]; then
-	raxmlHPC -f a -# "$bootstrap_num" -m PROTGAMMAAUTO -p 12345 -x 12345 -s "$input_file" -w "$output_dir" -n output.tree
+	raxmlHPC -f a -# "$bootstrap_num" -m "$tree_model" -p 12345 -x 12345 -s "$input_file" -w "$output_dir" -n output.tree
 else
-    raxmlHPC -f a -o "$outgroup" -# "$bootstrap_num" -m PROTGAMMAAUTO -p 12345 -x 12345 -s "$input_file" -w "$output_dir" -n output.tree
+    raxmlHPC -f a -o "$outgroup" -# "$bootstrap_num" -m "$tree_model" -p 12345 -x 12345 -s "$input_file" -w "$output_dir" -n output.tree
 fi
 
 ###raxmlHPC -f a -o CU928158.2 -# 100 -m PROTGAMMAAUTO -p 12345 -x 12345 -s "$input_file" -w "$output_dir" -n output.tree

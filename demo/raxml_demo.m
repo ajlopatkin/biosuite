@@ -3,35 +3,28 @@
 % % % # INPUTS (IN ORDER): 
 % % % #	+ 1. input_aln- input aligned file
 % % % # + 2. output_dir- output newick tree
-% % % # + 3. bootstraps- number of bootstrap repetitions
-% % % # + 4. OPTIONAL: outgroup- accession ID of outgroup to root the tree
+% % % # + 3. bootstrap_num- number of bootstrap repetitions
+% % % # + 4. tree_model - model to use for tree (GTRGAMMA for nucleotide; PROTGAMMAAUTO for amino acid)
+% % % # + 5. OPTIONAL: outgroup- accession ID of outgroup to root the tree
 
 clear; close all; clc
 BasePath = getenv("BIOSUITE_HOME");
 
 %%%%% USER INPUT %%%%%
-% Input 1: Name of alignment including the absolute path
+% Input 1: full path and file of multi-sequence alignment input
 input_aln = BasePath + "/demo/demo_data/sampleAA_sucA.phy";
 
-% Input 2: Path to output directory. This must be a new folder name that does not exist
+% Input 2: Full path to output directory (must be empty)
 output_dir = BasePath + "/demo/output/raxml/";
 
 % Input 3: Number of bootstrap repetitions
-bootstraps = 100; 
+bootstrap_num = 100;
 
-% Input 4: Optional outgroup accession ID
+% Input 4: Tree model to use
+tree_model = "PROTGAMMAAUTO"
 %%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%% DEMO %%%%%%%%
 mkdir(output_dir)
-% run raxml
-raxml(input_aln,output_dir,bootstraps)
+raxml(input_aln,output_dir,bootstrap_num,tree_model)
 %%%%%%%%%%%%%%%%%%%%%%
-
-BasePath = getenv("BIOSUITE_HOME");
-file_name = "sampleAA_sucA";
-input_aln = BasePath + "/demo/demo_data/" + file_name + ".phy";
-output_dir = BasePath + "/demo/output/raxml/";
-mkdir(output_dir)
-bootstraps = 100; 
-raxml(input_aln,output_dir,bootstraps)
