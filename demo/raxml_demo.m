@@ -27,3 +27,11 @@ mkdir(output_dir)
 % run raxml
 raxml(input_aln,output_dir,bootstraps)
 %%%%%%%%%%%%%%%%%%%%%%
+
+BasePath = getenv("BIOSUITE_HOME");
+file_name = "sampleAA_sucA";
+input_aln = BasePath + "/demo/demo_data/" + file_name + ".phy";
+output_dir = BasePath + "/demo/output/raxml/";
+mkdir(output_dir)
+bootstraps = 100; 
+raxml(input_aln,output_dir,bootstraps)
