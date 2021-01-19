@@ -21,7 +21,7 @@ Rigorous bioinformatics pipelines usually require integrating multiple tools tha
 
 #### BioSuite Installation
 * Clone this repository to your MATLAB home directory by entering `cd ~/Documents/MATLAB; git clone https://github.com/ajlopatkin/biosuite.git` in terminal. If your MATLAB home directory is not ~/Documents/MATLAB, change the above command accordingly. You can also choose to download an archive of this repo and unzip it into your MATLAB home directory.
-* Download the GeneSCF docker image from https://drive.google.com/file/d/1hPHhhdFwHKWDltn5inkKZ1EMCxFcmurH/view?usp=sharing (this is a compressed Docker image) and place it in the binaries folder of your BioSuite installation.
+* Download the GeneSCF docker image from https://drive.google.com/file/d/1hPHhhdFwHKWDltn5inkKZ1EMCxFcmurH/view?usp=sharing (this is a compressed Docker image). Make a new folder in the main BioSuite directory (same location as existing folders) named 'binaries'. Place the docker image in this binaries folder of your BioSuite installation.
 * In MATLAB, navigate to the BioSuite folder, and run `biosuite_init.m`. This will walk you through the installation of all of the Conda environments and databases that are required for BioSuite to run. You must restart MATLAB after this script completes for path variables and other changes to take effect.
 
 ### Executing program
