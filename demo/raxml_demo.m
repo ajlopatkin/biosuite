@@ -7,11 +7,23 @@
 % % % # + 4. OPTIONAL: outgroup- accession ID of outgroup to root the tree
 
 clear; close all; clc
-
 BasePath = getenv("BIOSUITE_HOME");
-file_name = "sampleAA_sucA";
-input_aln = BasePath + "/demo/demo_data/" + file_name + ".phy";
+
+%%%%% USER INPUT %%%%%
+% Input 1: Name of alignment including the absolute path
+input_aln = BasePath + "/demo/demo_data/sampleAA_sucA.phy";
+
+% Input 2: Path to output directory. This must be a new folder name that does not exist
 output_dir = BasePath + "/demo/output/raxml/";
-mkdir(output_dir)
+
+% Input 3: Number of bootstrap repetitions
 bootstraps = 100; 
+
+% Input 4: Optional outgroup accession ID
+%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%% DEMO %%%%%%%%
+mkdir(output_dir)
+% run raxml
 raxml(input_aln,output_dir,bootstraps)
+%%%%%%%%%%%%%%%%%%%%%%
