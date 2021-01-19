@@ -9,6 +9,8 @@
 # INPUTS (IN ORDER): 
 #	+ 1. input_file - input aligned fasta file
 #	+ 2. output_dir - directory for output tree
+#	+ 3. bootstraps - number of bootstrap repetitions
+#	+ 4. outgroup - accession ID of outgroup
 # 
 # DATE UPDATED: 8/22/20
 # AUTHOR: Allison Lopatkin
@@ -27,9 +29,17 @@ conda activate raxml_env
 # Parse the inputs
 input_file=$1
 output_dir=$2
+bootstraps = $3
+outgroup=$4
 
 ###################
 #~- MAIN SCRIPT -~#
 ###################
 
-raxmlHPC -f a -# 20 -m PROTGAMMAAUTO -p 12345 -x 12345 -s "$input_file" -w "$output_dir" -n output.tree
+if [ "$#" -eq 3 ]; then
+	raxmlHPC -f a -# "$bootstraps" -m PROTGAMMAAUTO -p 12345 -x 12345 -s "$input_file" -w "$output_dir" -n output.tree
+else
+    raxmlHPC -f a -o "$outgroup" -# "$bootstraps" -m PROTGAMMAAUTO -p 12345 -x 12345 -s "$input_file" -w "$output_dir" -n output.tree
+fi
+
+###raxmlHPC -f a -o CU928158.2 -# 100 -m PROTGAMMAAUTO -p 12345 -x 12345 -s "$input_file" -w "$output_dir" -n output.tree
