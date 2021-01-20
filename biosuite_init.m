@@ -180,7 +180,7 @@ setenv("BIOSUITE_HOME", pwd);
 home_directory_line="setenv('BIOSUITE_HOME','"+pwd+"');";
 
 % open startup.m and add BioSuite paths
-if make_startup == 1:
+if make_startup == 1
     fileid = fopen(userpath+"/startup.m", "a+");
     if add_to_startup == 1
         fprintf(fileid,"\n" + conda_path_line);
