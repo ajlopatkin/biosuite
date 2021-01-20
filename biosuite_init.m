@@ -79,7 +79,7 @@ if strcmp(conda_home, "")
         while ~isfolder(conda_home)
             disp(conda_home + " is not a valid directory.")
             conda_home = input("Please enter your Conda environment directory, or 'e' to exit: ", "s");
-            if any(strcmpi(["e","exit"],conda_home)
+            if any(strcmpi(["e","exit"],conda_home))
                 disp("Exiting...")
                 return
             end
@@ -114,7 +114,7 @@ if strcmp(docker_home, "")
         while ~isfolder(docker_home)
             disp(docker_home + " is not a valid path.")
             docker_home = input("Please enter your Docker environment directory, or 'e' to exit: ", "s");
-            if any(strcmpi(["e","exit"],docker_home)
+            if any(strcmpi(["e","exit"],docker_home))
                 disp("Exiting...")
                 return
             end
