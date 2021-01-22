@@ -38,7 +38,7 @@ outgroup=$5
 #~- MAIN SCRIPT -~#
 ###################
 
-if [ "$#" -eq 3 ]; then
+if [ "$#" -eq 4 ]; then
 	raxmlHPC -f a -# "$bootstrap_num" -m "$tree_model" -p 12345 -x 12345 -s "$input_file" -w "$output_dir" -n output.tree
 else
     raxmlHPC -f a -o "$outgroup" -# "$bootstrap_num" -m "$tree_model" -p 12345 -x 12345 -s "$input_file" -w "$output_dir" -n output.tree
