@@ -1,7 +1,7 @@
 function raxml(input_file, output_dir, bootstrap_num, tree_model, outgroup)
 
 
-if nargin == 3
+if nargin == 5
     
     str = "bash $BIOSUITE_HOME/bash_source/raxml.sh "...
         + input_file + " " + output_dir + " " + bootstrap_num + " " + tree_model + " " + outgroup;
