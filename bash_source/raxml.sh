@@ -30,8 +30,8 @@ conda activate raxml_env
 # Parse the inputs
 input_file=$1
 output_dir=$2
-bootstrap_num = $3
-tree_model = $4
+bootstrap_num=$3
+tree_model=$4
 outgroup=$5
 
 ###################
