@@ -65,7 +65,7 @@ else
         disp(" "); disp("Installing the KmerFinder database...");
         kmer_str = "CONDA_BASE=$(conda info --base);source $CONDA_BASE/etc/profile.d/conda.sh;conda activate cge_env; " + ...
             "cd $BIOSUITE_HOME/databases; git clone https://bitbucket.org/genomicepidemiology/kmerfinder_db.git; " + ...
-            "cd kmerfinder_db; KmerFinder_DB=$(pwd); bash INSTALL.sh $KmerFinder_DB bacteria 20190108_stable";
+            "cd kmerfinder_db; KmerFinder_DB=$(pwd); bash INSTALL.sh $KmerFinder_DB bacteria latest";
         [stat, out] = system(kmer_str);
         if stat == 0
             disp("KmerFinder database installed successfully!")

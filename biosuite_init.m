@@ -301,7 +301,7 @@ end
 % obtained from https://drive.google.com/file/d/1hPHhhdFwHKWDltn5inkKZ1EMCxFcmurH/view?usp=sharing
 disp(" ")
 disp("Importing GeneSCF Docker image...")
-docker_str = "docker import $BIOSUITE_HOME/binaries/genescf_container.tar genescf:latest";
+docker_str = "docker import $BIOSUITE_HOME/binaries/genescf.tar genescf:latest";
 [stat, out] = system(docker_str);
 if stat == 0
     disp("GeneSCF Docker image imported successfully!")
