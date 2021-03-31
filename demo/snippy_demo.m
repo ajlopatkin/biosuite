@@ -3,6 +3,7 @@
 % % % #	+ 2. ref_file - Path to directory to store roary output
 % % % #	+ 3. output_dir - minimum blast pct identity (default 95)
 % % % # + 4. prefix - name to append the SNIPPY output folder
+% % % # + 5. core_flag - indciates running the core genome alignment
 % % % # see https://github.com/tseemann/snippy
 
 clear;close all;clc

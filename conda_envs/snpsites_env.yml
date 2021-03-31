@@ -1,0 +1,9 @@
+name: snpsites_env
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - snp-sites=2.5.1=h188c3c3_1
+  - zlib=1.2.11=h7795811_1010
+prefix: /Users/alopatki/anaconda3/envs/snpsites_env
