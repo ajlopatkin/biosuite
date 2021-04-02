@@ -1,6 +1,5 @@
 function snippy(input_file,ref_file,output_dir,prefix)
 
-
 str = "bash $BIOSUITE_HOME/bash_source/snippy.sh " +...
     input_file + " " + ref_file + " " + output_dir + " " + prefix;
 
@@ -11,3 +10,5 @@ if status ~= 0
     disp(cmdout)
 end
 
+end
+    
