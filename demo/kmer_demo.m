@@ -16,7 +16,7 @@ output_path = BasePath + "/demo/output/SAMD00060955_genes/kmer/";
 %%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%% DEMO %%%%%%%%
-kmerfinder(input_fasta,outputpath)
+kmerfinder(input_fasta,output_path)
 str = "cp " + output_path + "results.spa " + output_path + "results.csv"; system(str);
 % results can be found in output_path + "results.csv"
 %%%%%%%%%%%%%%%%%%%%%%

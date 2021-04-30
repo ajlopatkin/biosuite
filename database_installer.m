@@ -153,5 +153,5 @@ if ismember(lower(install_amr),["y","yes"])
         disp(out)
     end
 else
-    disp("Skipping AMRPlus database.)
+    disp("Skipping AMRPlus database.")
 end
