@@ -21,6 +21,7 @@ parser.add_argument('-i', '--input', dest='i',type=str, required=True)
 #Output directory path for csv files
 parser.add_argument('-o', '--output', dest='o',type=str, required=True)
 parser.add_argument('-t', '--type', dest='t', type=str, required=False)
+parser.add_argument('-m', '--mask', dest='m', type=str, required=False)
 args = parser.parse_args()
 
 def main():
@@ -29,7 +30,15 @@ def main():
         if args.t == 'a':
             mask = ['abeM','Acinetobacter_baumannii_AbaQ','adeL','adeF','adeG','adeH','abeS','blaOXA-107','blaOXA-69','adeJ','adeN','adeK','blaOXA-164','blaOXA-371','adeI','blaOXA-167','blaOXA-92','adeS','adeR','adeC','adeB','adeA','blaADC-5','blaADC-184','blaADC-38','blaADC-174','blaADC-79','blaADC-78','blaADC-30','blaADC-81','blaADC-53','blaADC-74','blaADC-6','blaADC-183','blaADC-176','blaADC-11','blaADC-185','blaADC-96','blaADC-235','blaADC-25','blaADC-182','blaADC-186','blaADC-191','blaADC-181','blaADC-175']
         elif args.t=='e':
-            print("No mask- E.Coli")
+            mask = []
+        elif args.t == 'o':
+            if len(m) > 0:
+                mask = m.split(" ")
+            else:
+                print("No custom mask passed to pipeline, running without mask")
+        else:
+            mask=[]
+            print("No species flag, running without mask")
     tables = dict()
     set_genes = []
     set_res = []
@@ -59,9 +68,9 @@ def main():
     
     #Make sets 
     set_genes = list(set(set_genes))
-#    for gene in mask:
-#        if gene in set_genes:
-#            set_genes.remove(gene)
+    for gene in mask:
+       if gene in set_genes:
+            set_genes.remove(gene)
     set_res = list(set(set_res))
     genes_df = pd.DataFrame(columns=(["BioSample"] + set_genes))
     res_df = pd.DataFrame(columns=(["BioSample"] + set_res))
@@ -102,9 +111,9 @@ def main():
         #print(current_pairs)
         pairs_df.loc[len(pairs_df)] = current_pairs
         
-    genes_df.to_csv(args.o + "gene_heat_table.csv")
-    res_df.to_csv(args.o + "resistance_heat_table.csv")
-    pairs_df.to_csv(args.o + "heat_table_res_counts.csv")
+    genes_df.to_csv(args.o + "resistance_gene_heatmap_table.csv")
+    res_df.to_csv(args.o + "resistance_drug_heatmap_table.csv")
+    pairs_df.to_csv(args.o + "gene_counts_heatmap_table.csv")
 
 
 if __name__ == '__main__':

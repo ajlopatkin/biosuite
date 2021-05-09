@@ -25,9 +25,10 @@ source $CONDA_BASE/etc/profile.d/conda.sh
 input_dir=$1
 output_dir=$2
 species=$3
+mask=$4
 
 ###################
 #~- MAIN SCRIPT -~#
 ###################
 
-python "$BIOSUITE_HOME"/bash_source/resistance_pipeline.py -i "$input_dir" -o "$output_dir" -t "$species"
+python "$BIOSUITE_HOME"/bash_source/resistance_pipeline.py -i "$input_dir" -o "$output_dir" -t "$species" -m "$mask"
