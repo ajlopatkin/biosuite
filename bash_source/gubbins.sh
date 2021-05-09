@@ -25,9 +25,11 @@ conda activate gubbins_env
 
 # Parse the inputs
 multi_fasta_align=$1
+directory=$2
 
 ###################
 #~- MAIN SCRIPT -~#
 ###################
 
+cd "$directory"
 run_gubbins.py "$multi_fasta_align"
