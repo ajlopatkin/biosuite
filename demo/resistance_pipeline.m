@@ -2,18 +2,25 @@
 % % % # INPUTS (IN ORDER): 
 % % % #	+ 1. id_list: List of biosample ids to run through the pipeline
 % % % #	+ 2. base_folder: Path to directory to read/save intermediate and final pipeline outputs
+% % % #	+ 3. Species flag for genes to exclude from consensus data
+% % % % *      a: Acinetobacter (built-in mask)
+% % % % *      e: E. coli (no mask)
+% % % % *      o: Other (custom mask)
 
 clear;close all;clc
 BasePath = getenv("BIOSUITE_HOME");
 
 % % Input 1: List of biosample/accession IDs
-id_list =["Ex003", "Ax270"];
+id_list =[""];
 
 % % Input 2: Directory to hold outputs and folders created at each pipeline step
-base_folder = BasePath + "/demo/ab2/";
+base_folder = BasePath + "/demo/resistance_pipeline_folder/";
 
-% % Input 3: Species flag. a: Acinetobacter, 
+% % Input 3: Species flag, for gene mask. a: Acinetobacter; e: E. coli; o: Other (custom mask)
 species = "a";
+
+% % Input 4: Custom Mask - Required for species flag "o". Format: string of gene names separated by spaces
+c_mask = "abeL abeM"
 
 %%%%%%%%%%%% PIPELINE %%%%%%%%%%
 mkdir(base_folder)
@@ -37,7 +44,7 @@ while i <= length(id_list)
  
     i = i + 1;
 end
-str = "bash $BIOSUITE_HOME/bash_source/resistance_pipeline.sh " + consensus_folder + " " + base_folder +" " + species;
+str = "bash $BIOSUITE_HOME/bash_source/resistance_pipeline.sh " + consensus_folder + " " + base_folder +" " + species + " " + c_mask;
  
  [status,cmdout] = system(str);
  disp(cmdout)
