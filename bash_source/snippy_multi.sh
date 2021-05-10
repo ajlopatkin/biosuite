@@ -35,4 +35,5 @@ output_dir=$3
 ###################
 
 snippy-multi "$input_file" --ref "$ref_file" > "$output_dir"runme.sh
-bash "$output_dir"runme.sh
+cd "$output_dir"
+bash runme.sh
