@@ -54,5 +54,5 @@ fi
 samtools view -S -b "$output_dir""$output_prefix"_bwa.sam > "$output_dir""$output_prefix"_bwa.bam
 samtools sort "$output_dir""$output_prefix"_bwa.bam -o "$output_dir""$output_prefix"_bwa.sorted.bam
 
-#samtools mpileup -uf "$reference_file" "$output_dir""$output_prefix"_bwa.sorted.bam | bcftools call -c | vcfutils.pl vcf2fq > "$output_dir""$output_prefix"_bwa.fastq
-#seqtk seq -aQ64 -q20 -n N "$output_dir""$output_prefix"_bwa.fastq > "$output_dir""$output_prefix"_bwa.fasta
+samtools mpileup -uf "$reference_file" "$output_dir""$output_prefix"_bwa.sorted.bam | bcftools call -c | vcfutils.pl vcf2fq > "$output_dir""$output_prefix"_bwa.fastq
+seqtk seq -aQ64 -q20 -n N "$output_dir""$output_prefix"_bwa.fastq > "$output_dir""$output_prefix"_bwa.fasta
