@@ -1,0 +1,9 @@
+name: trimal_env
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - libcxx=11.0.0=h439d374_0
+  - trimal=1.4.1=ha1b3eb9_4
+prefix: /Users/alopatki/anaconda3/envs/trimal_env
