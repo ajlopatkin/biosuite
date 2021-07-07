@@ -9,7 +9,7 @@ BasePath = getenv("BIOSUITE_HOME");
 
 %%%%% USER INPUT %%%%%
 % Input 1: full path and file of multi-sequence alignment input
-output_file = BasePath + "/demo/output/snpsites.txt";
+output_file = BasePath + "/demo/output/snpsites.phyl";
 
 % Input 2: Full path to output directory (must be empty)
 input_file = BasePath + "/demo/demo_data/core.full.filtered_polymorphic_sites.fasta";
