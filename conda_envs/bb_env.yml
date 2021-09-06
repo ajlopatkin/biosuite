@@ -1,0 +1,9 @@
+name: bb_env
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bbmap=38.18=0
+  - openjdk=11.0.6=h7bc2e8c_1
+prefix: /Users/alopatki/anaconda3/envs/bb_env
