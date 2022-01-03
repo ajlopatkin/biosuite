@@ -296,13 +296,11 @@ else
     disp("For future database installs, run database_installer.m")
 end
 
-% load the geneSCF docker image; this must be downloaded and placed in the
-% folder $BIOSUITE_HOME/binaries/ before running. The docker image can be
-% obtained from https://drive.google.com/file/d/1hPHhhdFwHKWDltn5inkKZ1EMCxFcmurH/view?usp=sharing
+%build the geneSCF docker image
 disp(" ")
-disp("Importing GeneSCF Docker image...")
-docker_str = "docker import $BIOSUITE_HOME/binaries/genescf.tar genescf:latest";
-[stat, out] = system(docker_str);
+disp("Building GeneSCF Docker image...")
+docker_str = "docker build -t genescf:v1 $BIOSUITE_HOME/Dockerfile";
+[stat, out] = system(docker_str, '-echo');
 if stat == 0
     disp("GeneSCF Docker image imported successfully!")
 else
